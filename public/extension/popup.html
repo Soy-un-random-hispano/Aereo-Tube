@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AeroTube</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="icons/icon48.png" width="36" height="36" alt="" />
+        <div>
+          <h1>AeroTube</h1>
+          <p>Cristal líquido para YouTube</p>
+        </div>
+      </header>
+
+      <label class="row">
+        <span>Tema activo</span>
+        <input id="enabled" type="checkbox" role="switch" />
+      </label>
+
+      <p class="label">Wallpaper</p>
+      <div class="walls" id="walls">
+        <button type="button" data-wall="lagoon">
+          <img src="assets/wallpaper-lagoon.jpg" alt="" />
+          <span>Laguna</span>
+        </button>
+        <button type="button" data-wall="sky">
+          <img src="assets/wallpaper-sky.jpg" alt="" />
+          <span>Cielo</span>
+        </button>
+        <button type="button" data-wall="orbs">
+          <img src="assets/wallpaper-orbs.jpg" alt="" />
+          <span>Orbes</span>
+        </button>
+        <button type="button" data-wall="hills">
+          <img src="assets/wallpaper-hills.jpg" alt="" />
+          <span>Colinas</span>
+        </button>
+      </div>
+
+      <label class="row">
+        <span>Burbujas</span>
+        <input id="bubbles" type="checkbox" role="switch" />
+      </label>
+
+      <label class="row">
+        <span>Botones gloss</span>
+        <input id="glossyButtons" type="checkbox" role="switch" />
+      </label>
+
+      <label class="stack">
+        <span>Intensidad del cristal</span>
+        <input id="intensity" type="range" min="20" max="100" />
+      </label>
+
+      <p class="label">Acento</p>
+      <div class="accents" id="accents">
+        <button type="button" data-accent="aqua" aria-label="Aqua"></button>
+        <button type="button" data-accent="lime" aria-label="Lima"></button>
+        <button type="button" data-accent="sunset" aria-label="Atardecer"></button>
+      </div>
+
+      <footer>
+        <button type="button" id="reset" class="ghost">Reset</button>
+        <a class="primary" href="https://www.youtube.com" target="_blank" rel="noopener">
+          Abrir YouTube
+        </a>
+      </footer>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
