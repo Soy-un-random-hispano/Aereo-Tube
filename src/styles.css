@@ -4,8 +4,8 @@
   --font-display: "Comfortaa", "Segoe UI", ui-rounded, sans-serif;
   --font-sans: "Nunito", "Segoe UI", system-ui, sans-serif;
   --color-ink: #12324a;
-  --color-ink-soft: #3d6a82;
-  --color-ink-faint: #6a93a8;
+  --color-ink-soft: #2a5570;
+  --color-ink-faint: #5a849c;
   --color-aqua: #1ec8e8;
   --color-aqua-deep: #0a9bb8;
   --color-sky: #4fc3f7;
@@ -48,26 +48,28 @@
 }
 
 :root {
-  --aero-blur: 28px;
+  --aero-blur: 22px;
   --aero-intensity: 72;
   --aero-accent: #1ec8e8;
   --aero-accent-deep: #0a9bb8;
   --aero-accent-hi: #7fe8ff;
   --aero-wall-image: url("/aero/wallpaper.jpg");
+  /* Higher base opacity so text never vanishes on bright sky/water */
   --glass-bg: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.58) 0%,
-    rgba(220, 244, 255, 0.28) 48%,
-    rgba(180, 226, 255, 0.2) 100%
+    rgba(255, 255, 255, 0.78) 0%,
+    rgba(235, 248, 255, 0.62) 48%,
+    rgba(210, 238, 255, 0.55) 100%
   );
-  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.85);
   --shadow-glass:
-    inset 0 1px 0 rgba(255, 255, 255, 0.92),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
     inset 0 -1px 0 rgba(10, 90, 140, 0.08),
     0 10px 32px rgba(12, 70, 120, 0.16);
   --shadow-gloss:
     inset 0 1px 0 rgba(255, 255, 255, 0.85),
     0 6px 16px rgba(10, 140, 180, 0.32);
+  --text-legible: 0 1px 0 rgba(255, 255, 255, 0.55), 0 0 12px rgba(255, 255, 255, 0.35);
 }
 
 html[data-aero-accent="lime"] {
@@ -87,6 +89,7 @@ html[data-aero="off"] {
   --glass-border: rgba(0, 0, 0, 0.08);
   --shadow-glass: 0 1px 0 rgba(0, 0, 0, 0.06);
   --aero-blur: 0px;
+  --text-legible: none;
 }
 
 /* ---------- wallpaper + bubbles ---------- */
@@ -172,15 +175,21 @@ html[data-aero="off"] .aero-bubbles {
 
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(var(--aero-blur)) saturate(1.7);
-  -webkit-backdrop-filter: blur(var(--aero-blur)) saturate(1.7);
+  backdrop-filter: blur(var(--aero-blur)) saturate(1.55);
+  -webkit-backdrop-filter: blur(var(--aero-blur)) saturate(1.55);
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-glass);
+  /* Avoid Chrome GPU bug where backdrop-filter makes children flash invisible */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  isolation: isolate;
 }
 
 html[data-aero="off"] .glass {
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
+  transform: none;
+  -webkit-transform: none;
 }
 
 .gloss-btn {
@@ -232,16 +241,16 @@ html[data-aero="off"] .gloss-btn::before {
   height: 40px;
   border-radius: 999px;
   color: var(--color-ink);
-  background: rgba(255, 255, 255, 0.28);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
   transition:
     background 150ms cubic-bezier(0.22, 1, 0.36, 1),
     transform 150ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .icon-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.72);
 }
 
 .icon-btn:active {
@@ -269,16 +278,19 @@ html[data-aero="off"] .icon-btn {
   justify-content: space-between;
   gap: 12px;
   padding: 8px 16px;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(180, 236, 255, 0.38));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(18px) saturate(1.6);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(200, 238, 255, 0.72));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(18px) saturate(1.5);
+  color: var(--color-ink);
 }
 
 .promo-bar p {
   margin: 0;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   text-wrap: pretty;
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
 }
 
 .masthead {
@@ -321,6 +333,8 @@ html[data-aero="off"] .icon-btn {
   font-size: 1.2rem;
   letter-spacing: -0.03em;
   text-wrap: balance;
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
 }
 
 .brand-badge {
@@ -331,8 +345,8 @@ html[data-aero="off"] .icon-btn {
   padding: 3px 7px;
   border-radius: 999px;
   color: var(--color-water);
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 .search-wrap {
@@ -371,7 +385,7 @@ html[data-aero="off"] .icon-btn {
   display: grid;
   place-items: center;
   color: var(--color-ink);
-  background: rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .mast-actions {
@@ -432,17 +446,18 @@ html[data-aero="off"] .icon-btn {
   color: var(--color-ink);
   text-decoration: none;
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 800;
   background: transparent;
   border: 0;
   padding: 8px 4px;
+  text-shadow: var(--text-legible);
   transition: background 150ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .rail a:hover,
 .rail button:hover,
 .rail a.active {
-  background: rgba(255, 255, 255, 0.42);
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .main {
@@ -470,9 +485,9 @@ html[data-aero="off"] .icon-btn {
   font-size: 0.875rem;
   font-weight: 700;
   color: var(--color-ink);
-  background: rgba(255, 255, 255, 0.32);
-  border: 1px solid rgba(255, 255, 255, 0.55);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
 }
 
 .chip[data-on="true"] {
@@ -502,7 +517,7 @@ html[data-aero="off"] .icon-btn {
   aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.35);
   box-shadow:
     0 10px 28px rgba(12, 70, 120, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.45);
@@ -573,6 +588,8 @@ html[data-aero="off"] .icon-btn {
   font-weight: 800;
   line-height: 1.3;
   letter-spacing: -0.02em;
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -585,6 +602,7 @@ html[data-aero="off"] .icon-btn {
   font-size: 0.8rem;
   color: var(--color-ink-soft);
   line-height: 1.35;
+  text-shadow: var(--text-legible);
 }
 
 .empty {
@@ -597,6 +615,7 @@ html[data-aero="off"] .icon-btn {
   font-family: var(--font-display);
   font-size: 1.4rem;
   margin: 0 0 8px;
+  color: var(--color-ink);
 }
 
 .empty p {
@@ -810,6 +829,8 @@ html[data-aero="off"] .icon-btn {
   letter-spacing: -0.03em;
   line-height: 1.2;
   text-wrap: balance;
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
 }
 
 .watch-row {
@@ -830,11 +851,14 @@ html[data-aero="off"] .icon-btn {
 .ch-name {
   font-weight: 800;
   font-size: 0.95rem;
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
 }
 
 .ch-sub {
   font-size: 0.78rem;
   color: var(--color-ink-soft);
+  text-shadow: var(--text-legible);
 }
 
 .action-row {
@@ -878,6 +902,8 @@ html[data-aero="off"] .icon-btn {
   font-size: 1rem;
   font-weight: 800;
   margin: 0 0 12px;
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
 }
 
 .comment {
@@ -892,6 +918,7 @@ html[data-aero="off"] .icon-btn {
   font-size: 0.9rem;
   line-height: 1.45;
   text-wrap: pretty;
+  color: var(--color-ink);
 }
 
 .related {
@@ -944,6 +971,7 @@ html[data-aero="off"] .icon-btn {
   font-family: var(--font-display);
   font-size: 1.15rem;
   letter-spacing: -0.03em;
+  color: var(--color-ink);
 }
 
 .popup .lead {
@@ -963,6 +991,7 @@ html[data-aero="off"] .icon-btn {
 .field-label {
   font-weight: 800;
   font-size: 0.88rem;
+  color: var(--color-ink);
 }
 
 .switch {
@@ -970,7 +999,7 @@ html[data-aero="off"] .icon-btn {
   height: 28px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.4);
   position: relative;
   transition: background 180ms cubic-bezier(0.22, 1, 0.36, 1);
 }
@@ -1096,6 +1125,12 @@ html[data-aero="off"] .icon-btn {
   max-width: 760px;
   margin: 0 auto;
   padding: 12px 0 64px;
+  color: var(--color-ink);
+}
+
+.install > a {
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
 }
 
 .install h1 {
@@ -1105,14 +1140,18 @@ html[data-aero="off"] .icon-btn {
   line-height: 1.1;
   text-wrap: balance;
   margin: 8px 0 10px;
+  color: var(--color-ink);
+  text-shadow: var(--text-legible);
 }
 
 .install .lede {
   font-size: 1.05rem;
   line-height: 1.5;
-  color: var(--color-ink-soft);
+  color: var(--color-ink);
+  font-weight: 600;
   text-wrap: pretty;
   max-width: 54ch;
+  text-shadow: var(--text-legible);
 }
 
 .steps {
@@ -1127,6 +1166,12 @@ html[data-aero="off"] .icon-btn {
   gap: 14px;
   padding: 16px;
   border-radius: 22px;
+  /* Extra-opaque glass so step text never washes out on bright sky */
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(240, 250, 255, 0.78) 100%
+  );
 }
 
 .step-num {
@@ -1146,6 +1191,7 @@ html[data-aero="off"] .icon-btn {
 .step h2 {
   margin: 0 0 4px;
   font-size: 1.05rem;
+  color: var(--color-ink);
 }
 
 .step p {
@@ -1161,7 +1207,8 @@ html[data-aero="off"] .icon-btn {
   font-size: 0.82em;
   padding: 1px 6px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--color-ink);
 }
 
 .hero-dl {
@@ -1189,7 +1236,17 @@ html[data-aero="off"] .icon-btn {
 .note {
   margin-top: 8px;
   font-size: 0.85rem;
-  color: var(--color-ink-soft);
+  color: var(--color-ink);
+  font-weight: 600;
+  text-shadow: var(--text-legible);
+}
+
+.install .desc-card {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.88) 0%,
+    rgba(240, 250, 255, 0.78) 100%
+  );
 }
 
 .drawer-back {
@@ -1231,7 +1288,7 @@ html[data-aero="off"] .icon-btn {
 
 .drawer a:hover,
 .drawer a.active {
-  background: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.55);
 }
 
 .menu-only {

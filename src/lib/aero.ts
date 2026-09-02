@@ -36,6 +36,8 @@ export const ACCENTS: { id: AccentId; label: string }[] = [
   { id: "sunset", label: "Atardecer" },
 ];
 
+/** Keep blur in a safe range — extreme values can make Chrome hide text with backdrop-filter. */
 export function blurFromIntensity(intensity: number) {
-  return `${8 + Math.round(intensity * 0.28)}px`;
+  const n = Math.max(0, Math.min(100, intensity));
+  return `${6 + Math.round(n * 0.22)}px`;
 }
